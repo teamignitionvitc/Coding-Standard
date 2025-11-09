@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO & Display Meta Tags -->
+    <title>Team Ignition | Coding Standards & Conventions</title>
+    <meta name="description" content="Official confidential coding standards for Team Ignition: Embedded C, Python, and Flight Software Algorithms.">
+    <meta name="author" content="Team Ignition">
+    <meta name="theme-color" content="#111111">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Core Theme & Styles --- */
+        :root {
+            --primary: #0a84ff;
+            --primary-dark: #0077ee;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #111111;
+            --bg-light: #1a1a1a;
+            --text-primary: #e1e1e3;
+            --text-secondary: #a0a0a5;
+            --border: #2a2a2a;
+            --accent: #ff4d00; /* Ignition Orange */
+            --accent-dim: rgba(255, 77, 0, 0.15);
+            --success: #30d158;
+            --warning: #ffd60a;
+            --danger: #ff453a;
+            --c-color: #a9b7c6;
+            --py-color: #3572A5;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background-color: var(--border); border-radius: 6px; border: 3px solid var(--bg-dark); }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--accent); }
+
+        /* Typography */
+        h1, h2, h3, h4 { color: var(--text-primary); line-height: 1.3; font-weight: 700; letter-spacing: -0.02em; }
+        h1 { font-size: 2.75rem; margin-bottom: 1rem; }
+        h2 { font-size: 2rem; margin: 4rem 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        h3 { font-size: 1.5rem; margin: 2.5rem 0 1rem 0; color: var(--text-primary); }
+        h4 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        h5 { font-size: 1rem; margin: 1rem 0 0.5rem 0; color: var(--text-primary); font-weight: 600; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); max-width: 80ch; }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #ff6a00; text-decoration: underline; }
+        strong { font-weight: 600; color: var(--text-primary); }
+        ul, ol { margin: 1rem 0 1rem 1.5rem; color: var(--text-secondary); }
+        li { margin-bottom: 0.5rem; }
+
+        /* Layout */
+        .container { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 300px;
+            background: var(--bg-darker);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .content {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .main-body {
+            flex: 1;
+            padding: 4rem 5rem;
+        }
+        .team-logo-banner {
+            width: auto;
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        /* Language Badges */
+        .lang-badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            font-weight: 700;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .lang-badge.c { background: rgba(169, 183, 198, 0.1); color: var(--c-color); border: 1px solid var(--c-color); }
+        .lang-badge.py { background: rgba(53, 114, 165, 0.1); color: var(--py-color); border: 1px solid var(--py-color); }
+        .lang-badge.algo { background: rgba(255, 77, 0, 0.1); color: var(--accent); border: 1px solid var(--accent); }
+
+        /* Components */
+        .callout { background: var(--bg-light); border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .callout.danger { border-color: var(--danger); background: rgba(255, 69, 58, 0.05); }
+        .callout-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+
+        /* Code Blocks */
+        .code-block-wrapper {
+            background: #161618; /* Slightly different than bg-light for contrast */
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+        .code-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-darker); padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);
+        }
+        pre { margin: 0; padding: 1.25rem 1.5rem; overflow-x: auto; }
+        pre code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            background: transparent;
+            padding: 0;
+        }
+        /* Inline code */
+        p code, li code, td code {
+            background: var(--bg-light);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--accent);
+        }
+
+        .copy-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; transition: all 0.2s; }
+        .copy-btn:hover { background: var(--border); color: var(--text-primary); }
+
+        /* Tables */
+        .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin: 1.5rem 0; }
+        table { width: 100%; border-collapse: collapse; background: var(--bg-darker); text-align: left; }
+        th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+        th:last-child, td:last-child { border-right: none; }
+        th { background: var(--bg-light); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        tr:hover { background: var(--bg-light); }
+
+        /* Navigation */
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-darker); min-height: 80px; }
+        .nav-container { flex-grow: 1; overflow-y: auto; padding: 0 0 2rem 0; }
+        .nav-section-title {
+            padding: 1.5rem 1.5rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            background: var(--bg-darker);
+            z-index: 2;
+        }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 0.6rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem; border-left: 3px solid transparent; transition: all 0.2s ease; }
+        .nav-item:hover { background: var(--bg-light); color: var(--text-primary); }
+        .nav-item.active { background: var(--accent-dim); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+        .nav-item svg { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+
+        /* Search */
+        .search-container { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); position: relative; background: var(--bg-darker); }
+        #search-input { width: 100%; background: var(--bg-light); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 0.8rem 0.6rem 2.2rem; color: var(--text-primary); font-size: 0.9rem; }
+        #search-input:focus { outline: none; border-color: var(--accent); }
+        .search-icon { position: absolute; left: 2.2rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); width: 16px; height: 16px; }
+        .highlight { background-color: var(--accent-dim); color: var(--text-primary); padding: 0 2px; border-radius: 2px; }
+
+        /* Interactive Practice */
+        .practice-problem {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .reveal-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .reveal-btn:hover { background: #ff6a00; }
+        .solution { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+        .solution.visible { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            padding: 4rem 5rem 2rem;
+            margin-top: auto;
+        }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+        .footer-logo-section {
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .footer-logo-img {
+            height: 40px;
+            width: auto;
+            align-self: flex-start;
+        }
+        .footer-text { font-size: 0.9rem; color: var(--text-secondary); max-width: 400px; line-height: 1.6; }
+
+        .confidential-box {
+            background: rgba(255, 69, 58, 0.05);
+            border: 1px solid var(--danger);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .confidential-box h4 { color: var(--danger); margin-top: 0; display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
+        .confidential-box p { font-size: 0.85rem; margin-bottom: 0; color: var(--danger); opacity: 0.8; }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        .mobile-toggle { display: none; position: fixed; top: 1rem; right: 1rem; z-index: 1001; background: var(--bg-darker); border: 1px solid var(--border); padding: 0.5rem; border-radius: 6px; color: var(--text-primary); cursor: pointer; }
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); box-shadow: none; }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+            .content { margin-left: 0; width: 100%; }
+            .main-body, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .mobile-toggle { display: block; }
+            h1 { font-size: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-toggle" id="menu-toggle" aria-label="Toggle Menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- Intentional empty space for visual balance -->
+            </div>
+            <div class="search-container">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="search-input" placeholder="Search standards...">
+            </div>
+            <nav class="nav-container">
+                <div class="nav-section-title">Overview</div>
+                <a href="#intro" class="nav-item active"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Introduction</a>
+                <a href="#purpose" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg> Why Standards Matter</a>
+                <a href="#universal" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Universal Standards</a>
+
+                <div class="nav-section-title" style="color: var(--c-color);">Embedded C Guide</div>
+                <a href="#c-edu-basics" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg> C Basics Explained</a>
+                <a href="#c-edu-macros" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg> Power of Macros</a>
+                <a href="#c-edu-realtime" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Real-Time Concepts</a>
+
+                <div class="nav-section-title" style="color: var(--accent);">Advanced Algorithms</div>
+                <a href="#algo-fsm" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Finite State Machines</a>
+                <a href="#algo-pid" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> PID Control</a>
+                <a href="#algo-kalman" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg> Kalman Filtering</a>
+
+                <div class="nav-section-title" style="color: var(--c-color);">Embedded C Standards</div>
+                <a href="#c-structure" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h8"/></svg> File Structure</a>
+                <a href="#c-naming" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg> Naming & Types</a>
+                <a href="#c-formatting" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"/></svg> Formatting (Braces)</a>
+                <a href="#c-functions" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg> Functions & Docs</a>
+                <a href="#c-templates" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> C Templates</a>
+
+                <div class="nav-section-title" style="color: var(--py-color);">Python</div>
+                <a href="#py-naming" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636L4.222 4.222m15.556 15.556L18.364 18.364M5.636 18.364L4.222 19.778m15.556-15.556l1.414-1.414"/></svg> Naming Conventions</a>
+                <a href="#py-docs" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Docstrings & Types</a>
+                <a href="#py-structure" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg> Project Structure</a>
+
+                <div class="nav-section-title" style="color: var(--success);">Practice</div>
+                <a href="#practice" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Practice Arena</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div class="main-body">
+                <!-- Team Logo Placeholder -->
+                <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="team-logo-banner">
+
+                <section id="intro">
+                    <h1>Ignition Coding Standards</h1>
+                    <p>As a student rocketry team, Team Ignition develops a wide range of software completely in-house—from flight-critical avionics firmware to ground station telemetry dashboards. Adherence to these standards ensures our diverse codebase remains maintainable, readable, and reliable during high-pressure launch operations.</p>
+                    
+                    <div class="callout danger">
+                        <div class="callout-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Mandatory Adherence
+                        </div>
+                        <p>These standards must be followed by all members of the Software, Avionics, and Payload departments. All Pull Requests (PRs) will be reviewed against this guide before merging.</p>
+                    </div>
+                </section>
+
+                <section id="purpose">
+                    <h2>Why Standards Matter</h2>
+                    <p>In high-stakes engineering projects like rocketry, code is more than just instructions for a computer; it's a critical component of mission success. A single bug in our avionics firmware can lead to total vehicle loss.</p>
+                    <ul>
+                        <li><strong>Safety & Reliability:</strong> Consistent, well-structured code is easier to audit for potential failure points before they happen in flight.</li>
+                        <li><strong>Knowledge Transfer:</strong> We are a student team with constant member turnover. Standardized code ensures that new recruits can understand and maintain legacy systems written by alumni years ago.</li>
+                        <li><strong>Interoperability:</strong> When the Payload team's science experiments need to talk to the Avionics team's flight computer, adhering to shared data structure and naming conventions prevents integration nightmares on the launchpad.</li>
+                    </ul>
+                </section>
+
+                <section id="universal">
+                    <h2>Universal Standards <span class="lang-badge">ALL</span></h2>
+                    <p>These rules apply to every file in our repositories, regardless of language.</p>
+
+                    <h3>1. ASCII Header & Copyright</h3>
+                    <p>Every source file must start with the standard team ASCII art and copyright notice.</p>
+                    <div class="code-block-wrapper">
+                        <div class="code-header"><span>Standard Header Template</span><button class="copy-btn">Copy</button></div>
+                        <pre><code>/*
+                                        ::                                                      
+                                        ::                                                      
+                                        ::                                                      
+                                        ::                                                      
+                                        ::                                                      
+    ..    ..........    :.      ::      ::     .........  ..    ..........    ...      .        
+    ::    ::            : .:.   ::     .::.       ::      ::    ::       :    :: :.    :        
+    ::    ::   ..:::    :   .:. ::    ::::::      ::      ::    ::       :    ::   ::  :        
+    ::    ::......::    :      :::    ::::::      ::      ::    ::.......:    ::     :::        
+                                      ::::::                                                    
+                                      :.::.:                                                    
+                         .::::          ::          ::::.                                      
+                       .::::::::.       ::       .:::::::::                                    
+                       ::::::::::::....::::.....:::::::::::                                    
+                        .:::::::::::::::::::::::::::::::::.        
+
+                  © Copyright of Ignition &lt;Department Name&gt;
+*/</code></pre>
+                    </div>
+
+                    <h3>2. Version History Block</h3>
+                    <p>Maintain a manual history block at the top of critical files (especially firmware and core telemetry libraries) to track changes alongside Git history.</p>
+                    <div class="code-block-wrapper">
+                         <div class="code-header"><span>History Block</span><button class="copy-btn">Copy</button></div>
+                        <pre><code>/**************************************************************************************************
+* HISTORY:
+*
+* +----- (NEW | MODify | ADD | DELete)
+* |
+* No#   |       when       who                  what
+******+*********+**********+********************+**************************************************
+* 000  NEW      13/06/25   John Doe             Initial creation
+* 001  ADD      14/06/25   Jane Smith           Added SystemInit() logic
+**************************************************************************************************/</code></pre>
+                    </div>
+
+                    <h3>3. Commit Messages</h3>
+                    <p>Use clear, imperative present-tense commit messages. Prefix with the subsystem if applicable.</p>
+                    <ul>
+                        <li><strong>Good:</strong> <code>[Avionics] Fix stack overflow in IMU sensor task</code></li>
+                        <li><strong>Bad:</strong> <code>fixed bug</code> or <code>updated code</code></li>
+                    </ul>
+                </section>
+
+                <!-- EDUCATIONAL EMBEDDED C SECTION -->
+                <section id="c-edu-basics">
+                    <h2>Embedded C: The Basics Explained</h2>
+                    <p>Understanding the <em>why</em> behind our standards helps you write better code. Here's a breakdown of core concepts.</p>
+
+                    <h3>The .c vs. .h Split</h3>
+                    <p>In C, we split code into <strong>Header files (.h)</strong> and <strong>Source files (.c)</strong>. This is crucial for modularity.</p>
+                    <ul>
+                        <li><strong>Header Files (.h):</strong> These are the "public interface" of your module. They tell other parts of the code <em>what</em> your module can do, but not <em>how</em> it does it. They contain function prototypes, public struct definitions, macros, and extern variable declarations. Think of it as a menu in a restaurant.</li>
+                        <li><strong>Source Files (.c):</strong> These contain the actual implementation logic. They represent the "kitchen" where the work happens. This file includes its own `.h` file to ensure it matches the advertised interface.</li>
+                    </ul>
+                    <div class="callout">
+                         <strong>Why?</strong> If you change <em>how</em> a function works internally (in the `.c` file) without changing its inputs/outputs (in the `.h` file), you don't need to recompile every other file that uses it. This saves massive amounts of time in large projects.
+                    </div>
+                </section>
+
+                <section id="c-edu-macros">
+                    <h2>The Power of Macros</h2>
+                    <p>Macros (defined with `#define`) are preprocessor directives that perform text substitution before compilation. We use them extensively for two main reasons:</p>
+                    
+                    <h3>1. Avoiding Magic Numbers</h3>
+                    <p>A "magic number" is a raw number in code with no context. It's confusing and hard to update.</p>
+                    <ul>
+                        <li><strong>Bad:</strong> <code>if (speed > 1200) { ... }</code> — What is 1200? meters/sec? RPM? raw sensor ticks?</li>
+                        <li><strong>Good:</strong> <code>#define MAX_SAFE_SPEED_RPM (1200U)</code><br><code>if (speed > MAX_SAFE_SPEED_RPM) { ... }</code> — Clear, and if the limit changes, you only update it in one place.</li>
+                    </ul>
+
+                    <h3>2. Reusable, Efficient Operations</h3>
+                    <p>Small, frequent operations can be defined as macros for efficiency, as they avoid function call overhead. Always wrap macro arguments in parentheses to avoid order-of-operation bugs.</p>
+                    <div class="code-block-wrapper">
+                        <pre><code class="language-c">// BAD: #define SQUARE(x) x * x
+// SQUARE(5+1) becomes 5 + 1 * 5 + 1 = 5 + 5 + 1 = 11 (WRONG!)
+
+// GOOD:
+#define SQUARE(x) ((x) * (x))
+// SQUARE(5+1) becomes ((5+1) * (5+1)) = (6 * 6) = 36 (CORRECT!)</code></pre>
+                    </div>
+                </section>
+
+                <section id="c-edu-typedef">
+                     <h2>Why Typedef?</h2>
+                     <p>`typedef` allows us to create aliases for data types. In Embedded C, this is critical for portability.</p>
+                     <p>Different microcontrollers have different sizes for standard types like `int`. On an 8-bit AVR, `int` might be 16 bits. On a 32-bit STM32, `int` is 32 bits. This can cause catastrophic bugs if your code assumes a specific size.</p>
+                     <p>By using `<stdint.h>` typedefs like `uint8_t`, `int32_t`, etc., we guarantee the exact size of our variables regardless of the hardware, ensuring our flight code works reliably everywhere.</p>
+                </section>
+
+                <section id="c-edu-realtime">
+                    <h2>Real-Time Concepts</h2>
+                    <p>A rocket doesn't wait for your code to finish. We must write code that meets strict timing deadlines.</p>
+
+                    <h3>Blocking vs. Non-Blocking Code</h3>
+                    <p><strong>Blocking</strong> code halts the CPU until a task is done (e.g., writing to an SD card). <strong>Non-blocking</strong> code starts a task and immediately returns, checking back later.</p>
+                    <div class="callout danger">
+                        <strong>Critical:</strong> Never use blocking code in the main flight control loop. An SD card write can take 100ms+, which could cause the rocket to become unstable if it misses gyro updates during that time.
+                    </div>
+                    <p><strong>Solution:</strong> Use <strong>interrupts</strong> to handle time-critical sensor data, and use <strong>buffers</strong> (RAM) to temporarily store data before writing it to slow peripherals like SD cards when the CPU is idle.</p>
+                </section>
+
+                <!-- ADVANCED ALGORITHMS SECTION -->
+                <section id="algo-fsm">
+                     <h2>Finite State Machines (FSM) <span class="lang-badge algo">CRITICAL</span></h2>
+                     <p>An FSM is mandatory for flight logic. It prevents invalid states, like firing a parachute while still on the launch pad.</p>
+                     <h3>Standard Flight States</h3>
+                     <ul>
+                         <li><code>PAD_IDLE</code>: Rocket is on ground, disarmed.</li>
+                         <li><code>ARMED</code>: Ready for launch, awaiting acceleration trigger.</li>
+                         <li><code>POWERED_ASCENT</code>: Motor is burning, high-G acceleration.</li>
+                         <li><code>COAST</code>: Motor burnout, coasting to apogee.</li>
+                         <li><code>APOGEE</code>: Zero vertical velocity, deploy drogue parachute.</li>
+                         <li><code>MAIN_DESCENT</code>: Reached lower altitude, deploy main parachute.</li>
+                         <li><code>LANDED</code>: safely on ground, stop logging.</li>
+                     </ul>
+                     <div class="code-block-wrapper">
+                        <div class="code-header"><span>FSM Implementation Example</span></div>
+                         <pre><code class="language-cpp">switch (gCurrentState)
+{
+    case STATE_PAD_IDLE:
+        if (IsLaunchDetected()) {
+             TransitionTo(STATE_POWERED_ASCENT);
+        }
+        break;
+    case STATE_COAST:
+        if (Velocity <= 0 && Altitude > MIN_APOGEE) {
+             TransitionTo(STATE_APOGEE);
+        }
+        break;
+    // ... other states
+}</code></pre>
+                     </div>
+                </section>
+
+                <section id="algo-pid">
+                    <h2>PID Control <span class="lang-badge algo">STABILIZATION</span></h2>
+                    <p>Used for active stabilization (fins, thrust vectoring). It calculates a corrective action based on the error between desired and actual orientation.</p>
+                    <ul>
+                        <li><strong>P (Proportional):</strong> Reacts to current error. "We are tilted 10 degrees, push back hard."</li>
+                        <li><strong>I (Integral):</strong> Reacts to accumulated past error. "We've been tilted for 5 seconds, push harder to fix it."</li>
+                        <li><strong>D (Derivative):</strong> Reacts to rate of change. "We are tilting too fast, slow down."</li>
+                    </ul>
+                    <div class="code-block-wrapper">
+                        <div class="code-header"><span>Robust PID Class with Anti-Windup</span><button class="copy-btn">Copy</button></div>
+                        <pre><code class="language-cpp">class PID {
+public:
+    PID(float kp, float ki, float kd, float max_i) 
+        : _kp(kp), _ki(ki), _kd(kd), _max_i(max_i), _integral(0), _prev_error(0) {}
+
+    float update(float setpoint, float measured, float dt) {
+        float error = setpoint - measured;
+        _integral += error * dt;
+        
+        // Anti-windup: clamp integral term
+        if (_integral > _max_i) _integral = _max_i;
+        else if (_integral < -_max_i) _integral = -_max_i;
+
+        float derivative = (error - _prev_error) / dt;
+        _prev_error = error;
+
+        return (_kp * error) + (_ki * _integral) + (_kd * derivative);
+    }
+private:
+    float _kp, _ki, _kd, _max_i;
+    float _integral, _prev_error;
+};</code></pre>
+                    </div>
+                </section>
+
+                <section id="algo-kalman">
+                    <h2>Kalman Filtering <span class="lang-badge algo">STATE ESTIMATION</span></h2>
+                    <p>Raw sensor data is noisy. A Kalman filter fuses data from multiple sensors (e.g., accelerometer + barometer) to create a single, highly accurate estimate of altitude and velocity. This is essential for precise apogee detection.</p>
+                    <p>It works in a two-step cycle:</p>
+                    <ol>
+                        <li><strong>Predict:</strong> Use physics equations (accelerometer data) to guess where the rocket will be next.</li>
+                        <li><strong>Update:</strong> Use a real measurement (barometer altitude) to correct that guess based on how trusted each sensor is.</li>
+                    </ol>
+                </section>
+
+                <!-- STANDARD C SECTION -->
+                <section id="c-structure">
+                    <h2>Embedded C Standards <span class="lang-badge c">AVIONICS</span></h2>
+                    <h3>File Structure & Logical Order</h3>
+                    <p>The recommended logical order of a <code>.c</code> or <code>.h</code> file is:</p>
+                    <ol>
+                        <li>ASCII Header & File Info Block</li>
+                        <li>Includes (System <code>&lt;...&gt;</code> first, then Project <code>"..."</code>)</li>
+                        <li>Macros / Constants</li>
+                        <li>Enumerations</li>
+                        <li>Typedefs / Structures</li>
+                        <li>Global / Static Variables</li>
+                        <li>Static Function Declarations</li>
+                        <li>Function Definitions</li>
+                    </ol>
+                </section>
+
+                <section id="c-naming">
+                    <h3>Naming Conventions (C)</h3>
+                    <p>Meaningful names are self-documenting. Avoid cryptic abbreviations (e.g., use <code>CalculateVelocity</code> instead of <code>CalcVel</code>).</p>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>Entity</th><th>Convention</th><th>Example</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Macros / Constants</td><td><code>UPPER_SNAKE_CASE</code></td><td><code>MAX_ALLOWED_SPEED</code></td></tr>
+                                <tr><td>Enums</td><td>PascalCase (type) + <code>ALL_CAPS</code> (values)</td><td><code>SystemState</code>, <code>STATE_ERROR</code></td></tr>
+                                <tr><td>Structs</td><td>Prefix 't' + PascalCase (Optional) or PascalCase</td><td><code>tSensorData</code> or <code>SensorData</code></td></tr>
+                                <tr><td>Globals</td><td>Prefix 'g' + CamelCase</td><td><code>gRuntimeStatus</code></td></tr>
+                                <tr><td>Statics (Private)</td><td>Prefix 's' + CamelCase</td><td><code>sControlFlag</code></td></tr>
+                                <tr><td>Functions</td><td>PascalCase (VerbNoun)</td><td><code>SystemInit()</code></td></tr>
+                                <tr><td>Pointers</td><td>Prefix 'p'</td><td><code>pDataBuffer</code></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Standard Types (stdint.h)</h3>
+                    <p>ALWAYS use fixed-width types for portability across platforms (e.g., STM32, ESP32, AVR).</p>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Standard Type</th><th>Defined As</th></tr></thead>
+                            <tbody>
+                                <tr><td>unsigned char</td><td><code>uint8_t</code></td></tr>
+                                <tr><td>unsigned short</td><td><code>uint16_t</code></td></tr>
+                                <tr><td>unsigned long</td><td><code>uint32_t</code></td></tr>
+                                <tr><td>signed char</td><td><code>int8_t</code></td></tr>
+                                <tr><td>signed short</td><td><code>int16_t</code></td></tr>
+                                <tr><td>signed long</td><td><code>int32_t</code></td></tr>
+                                <tr><td>boolean</td><td><code>bool</code> (requires <code>&lt;stdbool.h&gt;</code>)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="c-formatting">
+                    <h3>Formatting Guidelines</h3>
+                    <h4>Indentation & Whitespace</h4>
+                     <ul>
+                        <li>Use <strong>TAB</strong> (set to 4 spaces width) for indentation.</li>
+                        <li>Use one blank line to separate logical blocks of code.</li>
+                        <li>Space around operators: <code>result = value1 + value2;</code> not <code>result=value1+value2;</code>.</li>
+                        <li>Space after commas and semicolons: <code>Function(arg1, arg2, arg3);</code></li>
+                        <li>Space after keywords with parentheses: <code>for (int i = 0; i < 10; i++)</code></li>
+                    </ul>
+                    <h4>Braces (Allman/BSD Style)</h4>
+                    <p>Braces are <strong>always required</strong>, even for single-line blocks. Opening braces must be on a <strong>new line</strong>.</p>
+                    <div class="code-block-wrapper">
+                         <pre><code class="language-c">if (condition)
+{
+    PerformAction();
+}
+else
+{
+    HandleError();
+}</code></pre>
+                    </div>
+                </section>
+
+                <section id="c-functions">
+                    <h3>Function Documentation (Doxygen)</h3>
+                    <p>Every function must have a Doxygen header. We use different styles for global vs. static functions.</p>
+                    
+                    <h4>Global Function Header</h4>
+                    <div class="code-block-wrapper">
+                        <pre><code class="language-c">/**
+ * \brief   Initializes the system.
+ * \details Sets up default configuration and resets status trackers.
+ *
+ * \param[in]  initState  Desired system state to initialize.
+ * \return     RESULT_OK if successful, RESULT_INVALID_PARAM if state is invalid.
+ *
+ * \pre       Must be called before other system routines.
+ * \post      Global status and config are initialized.
+ */
+ResultCode SystemInit(SystemState initState)
+{
+    // Implementation...
+}</code></pre>
+                    </div>
+
+                    <h4>Static (Private) Function Header</h4>
+                     <div class="code-block-wrapper">
+                        <pre><code class="language-c">/**
+ * \brief   Validates configuration structure.
+ *
+ * \param[in] config  Pointer to config to validate.
+ * \return    true if valid, false otherwise.
+ */
+static bool Module_ValidateConfig(const ModuleConfig* config);</code></pre>
+                    </div>
+
+                    <h3>Error Handling</h3>
+                    <p>All failure-prone functions MUST return a <code>ResultCode</code>. Validate all inputs at the start of every function. **No silent failures.**</p>
+                </section>
+                
+                <section id="c-templates">
+                    <h3>C Module Templates</h3>
+                    <p>Use these templates exactly as shown for new modules.</p>
+                    <div class="code-block-wrapper">
+                        <div class="code-header"><span>Template_module.h</span><button class="copy-btn">Copy</button></div>
+                        <pre><code class="language-c">#ifndef TEMPLATE_MODULE_H_
+#define TEMPLATE_MODULE_H_
+
+/**************************************************************************************************
+* Includes
+**************************************************************************************************/
+#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+
+/**************************************************************************************************
+* Macro Definitions
+**************************************************************************************************/
+#define TEMPLATE_TIMEOUT_MS     (500U)
+
+/**************************************************************************************************
+* Type Definitions
+**************************************************************************************************/
+/**
+ * \brief   Operating states for the template module.
+ */
+typedef enum
+{
+    MODE_IDLE = 0,
+    MODE_RUNNING,
+    MODE_ERROR
+} TemplateMode;
+
+/**
+ * \brief   Result codes for function return.
+ */
+typedef enum
+{
+    RESULT_OK = 0,
+    RESULT_INVALID_PARAM,
+    RESULT_TIMEOUT
+} TemplateResult;
+
+/**
+ * \brief   Configuration parameters for initialization.
+ */
+typedef struct
+{
+    uint16_t    timeout_ms;
+    bool        enable_flag;
+} TemplateConfig;
+
+/**
+ * \brief   Internal runtime tracking structure.
+ */
+typedef struct
+{
+    TemplateMode    current_mode;
+    uint32_t        tick_count;
+} TemplateRuntime;
+
+/**************************************************************************************************
+* Public Function Prototypes
+**************************************************************************************************/
+/**
+ * \brief   Initializes the template module.
+ * \param[in] config    Pointer to configuration structure.
+ * \return    RESULT_OK if successful, RESULT_INVALID_PARAM otherwise.
+ */
+TemplateResult Template_Init(const TemplateConfig* config);
+
+/**
+ * \brief   Periodic update for the module.
+ * \return    RESULT_OK on success.
+ */
+TemplateResult Template_Update(void);
+
+#endif /* TEMPLATE_MODULE_H_ */</code></pre>
+                    </div>
+
+                    <div class="code-block-wrapper">
+                        <div class="code-header"><span>Template_module.c</span><button class="copy-btn">Copy</button></div>
+                        <pre><code class="language-c">/**************************************************************************************************
+* Includes
+**************************************************************************************************/
+#include "template_module.h"
+
+/**************************************************************************************************
+* Static Variables
+**************************************************************************************************/
+static TemplateRuntime  s_runtime;
+static TemplateConfig   s_config;
+
+/**************************************************************************************************
+* Static Function Prototypes
+**************************************************************************************************/
+/**
+ * \brief   Validates configuration structure.
+ * \param[in] config    Pointer to config to validate.
+ * \return    true if valid, false otherwise.
+ */
+static bool Template_ValidateConfig(const TemplateConfig* config);
+
+/**************************************************************************************************
+* Function Definitions
+**************************************************************************************************/
+TemplateResult Template_Init(const TemplateConfig* config)
+{
+    if (!Template_ValidateConfig(config))
+    {
+        return RESULT_INVALID_PARAM;
+    }
+    s_config = *config;
+    s_runtime.current_mode = MODE_IDLE;
+    s_runtime.tick_count = 0U;
+    return RESULT_OK;
+}
+
+TemplateResult Template_Update(void)
+{
+    s_runtime.tick_count++;
+    // Example control logic
+    if (s_runtime.current_mode == MODE_RUNNING)
+    {
+        // TODO: Add functional code here
+    }
+    return RESULT_OK;
+}
+
+/**************************************************************************************************
+* Static Function Definitions
+**************************************************************************************************/
+static bool Template_ValidateConfig(const TemplateConfig* config)
+{
+    if (config == NULL) { return false; }
+    if (config->timeout_ms == 0U) { return false; }
+    return true;
+}</code></pre>
+                    </div>
+                </section>
+
+                <!-- PYTHON SECTION -->
+                <section id="py-naming">
+                    <h2>Python <span class="lang-badge py">TELEMETRY</span> <span class="lang-badge py">DATA ANALYSIS</span></h2>
+                    <p>Follows <strong>PEP 8</strong> generally, with Google-style docstrings.</p>
+
+                    <h3>Naming Conventions</h3>
+                    <ul>
+                        <li><strong>Variables/Functions:</strong> <code>snake_case</code> (e.g., <code>calculate_apogee()</code>)</li>
+                        <li><strong>Classes:</strong> <code>PascalCase</code> (e.g., <code>TelemetryParser</code>)</li>
+                        <li><strong>Constants:</strong> <code>UPPER_SNAKE_CASE</code> (e.g., <code>DEFAULT_BAUD_RATE</code>)</li>
+                        <li><strong>Private Members:</strong> <code>_leading_underscore</code> (e.g., <code>_internal_buffer</code>)</li>
+                    </ul>
+                </section>
+
+                <section id="py-docs">
+                    <h3>Docstrings & Type Hints</h3>
+                    <p>Mandatory type hints and Google-style docstrings for non-trivial functions.</p>
+                    <div class="code-block-wrapper">
+                        <pre><code class="language-python">from typing import List, Optional
+
+def calculate_apogee(altitudes: List[float]) -> Optional[float]:
+    """Calculates the maximum altitude from a list of readings.
+
+    Args:
+        altitudes (List[float]): A list of raw altitude measurements in meters.
+
+    Returns:
+        Optional[float]: The filtered maximum altitude in meters, or None if input is empty.
+    
+    Raises:
+        ValueError: If the altitude data contains negative values.
+    """
+    if not altitudes: return None
+    return max(altitudes)</code></pre>
+                    </div>
+                </section>
+                
+                <section id="py-structure">
+                    <h3>Project Structure</h3>
+                    <p>Standard structure for all Python tools and dashboards.</p>
+                    <div class="code-block-wrapper">
+                        <pre><code>project_root/
+├── src/                 # Source code
+│   ├── main.py          # Entry point
+│   └── modules/         # Package modules
+├── tests/               # Pytest unit tests
+├── docs/                # Documentation
+├── requirements.txt     # Dependencies
+└── README.md            # Setup instructions</code></pre>
+                    </div>
+                </section>
+
+                <!-- PRACTICE ARENA SECTION -->
+                <section id="practice">
+                    <h2>Practice Arena</h2>
+                    <p>Test your understanding of the Ignition standards with these real-world, complex rocketry scenarios.</p>
+
+                    <div class="practice-problem">
+                        <div class="practice-header">
+                            <h3>System Design: Full Flight FSM</h3>
+                            <button class="reveal-btn" onclick="toggleSolution('sol1')">Show Solution</button>
+                        </div>
+                        <p><strong>Task:</strong> Design the COMPLETE <code>flight_fsm.h</code> header file for the main flight computer. It must include:</p>
+                        <ul style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                            <li>Correct file header and include guards.</li>
+                            <li>All necessary <code>includes</code>.</li>
+                            <li>An <code>enum</code> for all 7 standard flight states (PAD_IDLE to LANDED).</li>
+                            <li>An <code>enum</code> for FSM-specific error codes.</li>
+                            <li>A <code>struct</code> for holding the FSM's runtime state (current state, time in state).</li>
+                            <li>Public function prototypes for Init, Update, and a safe state transition function.</li>
+                            <li>Full Doxygen documentation for every element.</li>
+                        </ul>
+                        <div id="sol1" class="solution">
+                            <pre><code class="language-c">#ifndef FLIGHT_FSM_H_
+#define FLIGHT_FSM_H_
+
+/**************************************************************************************************
+* Includes
+**************************************************************************************************/
+#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+
+/**************************************************************************************************
+* Type Definitions
+**************************************************************************************************/
+/**
+ * \brief   Defines all possible states for the flight vehicle.
+ */
+typedef enum
+{
+    STATE_PAD_IDLE = 0,     /**&lt; On ground, disarmed, performing self-tests. */
+    STATE_ARMED,            /**&lt; Ready for launch, waiting for acceleration trigger. */
+    STATE_POWERED_ASCENT,   /**&lt; Motor burning, high-G ascent. */
+    STATE_COAST,            /**&lt; Motor burnout, coasting to apogee. */
+    STATE_APOGEE,           /**&lt; Apogee detected, deploying drogue. */
+    STATE_MAIN_DESCENT,     /**&lt; Low altitude reached, deploying main. */
+    STATE_LANDED,           /**&lt; Touchdown detected, safeing systems. */
+    STATE_COUNT             /**&lt; Total number of states, for bounds checking. */
+} FlightState;
+
+/**
+ * \brief   Return codes for FSM operations.
+ */
+typedef enum
+{
+    FSM_OK = 0,
+    FSM_ERR_INVALID_TRANSITION, /**&lt; Attempted illegal state change. */
+    FSM_ERR_NOT_INITIALIZED     /**&lt; FSM not initialized before use. */
+} FsmResult;
+
+/**
+ * \brief   Holds the runtime status of the Finite State Machine.
+ */
+typedef struct
+{
+    FlightState currentState;       /**&lt; The current active state. */
+    uint32_t    timeInStateMs;      /**&lt; Time elapsed since entering current state. */
+} FsmRuntime;
+
+/**************************************************************************************************
+* Public Function Prototypes
+**************************************************************************************************/
+/**
+ * \brief   Initializes the Flight FSM to its default state (PAD_IDLE).
+ * \post    Global FSM state is set to PAD_IDLE and timers reset.
+ */
+void FSM_Init(void);
+
+/**
+ * \brief   Main FSM update task, called periodically in the flight loop.
+ * \details Checks sensor data against transition criteria for the current state.
+ */
+void FSM_Update(void);
+
+/**
+ * \brief   Safely transitions the FSM to a new state.
+ * \param[in]  newState  The target state to transition to.
+ * \return     FSM_OK if transition allowed, FSM_ERR_INVALID_TRANSITION otherwise.
+ */
+FsmResult FSM_TransitionTo(FlightState newState);
+
+#endif /* FLIGHT_FSM_H_ */</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="practice-problem">
+                        <div class="practice-header">
+                            <h3>Algorithm Implementation: Safe Pyro Controller</h3>
+                            <button class="reveal-btn" onclick="toggleSolution('sol2')">Show Solution</button>
+                        </div>
+                        <p><strong>Task:</strong> Implement the <code>Pyro_FireDrogue()</code> function in a <code>pyro_control.c</code> file. It must actuate a two-stage "arm-and-fire" hardware circuit. Requirements:</p>
+                         <ul style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                            <li>It MUST check if the global system state is <code>STATE_APOGEE</code> before doing anything.</li>
+                            <li>It must first ENABLE the high-side arming FET (pin <code>PIN_PYRO_ARM</code>).</li>
+                            <li>It must then wait briefly (non-blocking if possible, but for this simple example a short delay is acceptable to ensure FET turn-on time).</li>
+                            <li>Only then can it PULSE the low-side firing FET (pin <code>PIN_DROGUE_FIRE</code>) high.</li>
+                            <li>Use standardized types and fictional `HAL_GPIO_Write` functions.</li>
+                        </ul>
+                        <div id="sol2" class="solution">
+                             <pre><code class="language-c">#include "pyro_control.h"
+#include "flight_fsm.h"
+#include "hal_gpio.h" // Fictional HAL for example
+
+// Assume these globals exist from other modules
+extern FlightState gCurrentState; 
+
+PyroResult Pyro_FireDrogue(void)
+{
+    // 1. CRITICAL SAFETY INTERLOCK: State Check
+    if (gCurrentState != STATE_APOGEE)
+    {
+        // Log error: attempted drogue fire outside apogee!
+        return PYRO_ERR_SAFETY_LOCKOUT;
+    }
+
+    // 2. Arming Sequence (Two-Stage Commit)
+    // Enable the high-side safety switch
+    HAL_GPIO_Write(PIN_PYRO_ARM, GPIO_HIGH);
+    
+    // Short delay to allow FET gate to charge fully (e.g., 1ms)
+    // In a real RTOS, use a non-blocking primitive here.
+    HAL_DelayMs(1U); 
+
+    // 3. Firing Sequence
+    // Actuate the low-side switch to complete the circuit
+    HAL_GPIO_Write(PIN_DROGUE_FIRE, GPIO_HIGH);
+    
+    // Note: A separate timer task should turn these pins OFF 
+    // after 1-2 seconds to prevent battery drain or damage.
+    
+    return PYRO_OK;
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="final-notes">
+                    <h2>Final Notes</h2>
+                    <p>This document <strong>must be followed by all members</strong>. Code will be reviewed for adherence to this guide.</p>
+                    <p>Extensions may be made for platform-specific, competition-specific, or safety-critical rules (e.g., MISRA-C, STM32 HAL, CubeMX style) upon approval by leads.</p>
+                </section>
+
+            </div> <!-- End main-body -->
+
+            <footer>
+                <div class="footer-grid">
+                    <div class="footer-main">
+                        <div class="footer-logo-text">
+                            <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="footer-logo-img">
+                            Team Ignition
+                        </div>
+                        <p class="footer-text">The official student rocketry team of Vellore Institute of Technology, Chennai. Dedicated to advancing aerospace innovation through hands-on learning.</p>
+                    </div>
+                    <div class="confidential-box">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            INTERNAL USE ONLY
+                        </h4>
+                        <p>This document contains proprietary coding standards. Do not distribute outside the organization without authorization.</p>
+                    </div>
+                </div>
+                <p class="copyright">© 2025 Team Ignition Software Department, VIT Chennai</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const toggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('open');
+        });
+        document.body.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1024 && sidebar.classList.contains('open') && !sidebar.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active Navigation on Scroll
+        const sections = document.querySelectorAll('main section, main div[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+        const observerOptions = { rootMargin: '-10% 0px -80% 0px' };
+        
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    if (document.querySelector(`.nav-item[href="#${id}"]`)) {
+                        navItems.forEach(item => item.classList.remove('active'));
+                        document.querySelector(`.nav-item[href="#${id}"]`).classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+        sections.forEach(s => observer.observe(s));
+
+        // Copy to Clipboard
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const codeBlock = btn.closest('.code-block-wrapper');
+                const code = codeBlock.querySelector('code').innerText;
+                
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(code).then(() => {
+                        showCopied(btn);
+                    }).catch(err => {
+                        console.warn('Clipboard API failed, trying fallback', err);
+                        fallbackCopyText(code, btn);
+                    });
+                } else {
+                    fallbackCopyText(code, btn);
+                }
+            });
+        });
+
+        function fallbackCopyText(text, btn) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) showCopied(btn);
+                else btn.innerText = 'Error';
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+                btn.innerText = 'Error';
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showCopied(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            setTimeout(() => btn.innerHTML = originalText, 2000);
+        }
+
+        // Enhanced Search with Highlighting
+        const searchInput = document.getElementById('search-input');
+        let originalContent = new Map(); // Store original HTML content
+
+        // Initialize by storing original content of searchable elements
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('main p, main h1, main h2, main h3, main li, main td, .practice-problem p').forEach((el, index) => {
+                el.setAttribute('data-search-id', index);
+                originalContent.set(index, el.innerHTML);
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            // 1. Filter Sections
+            document.querySelectorAll('main section, .practice-problem').forEach(el => {
+                if (term === '') {
+                     el.style.display = 'block';
+                } else {
+                     // Simple text matching for section visibility
+                     el.style.display = el.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+                }
+            });
+
+            // 2. Highlight Matches
+            originalContent.forEach((content, id) => {
+                const el = document.querySelector(`[data-search-id="${id}"]`);
+                if (term !== '' && content.toLowerCase().includes(term)) {
+                    // Create a regex that matches the term but preserves case in original text
+                    const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    el.innerHTML = content.replace(regex, '<span class="highlight">$1</span>');
+                } else {
+                    // Restore original content if no match or search cleared
+                    el.innerHTML = content;
+                }
+            });
+        });
+
+        // Practice Problem Toggle
+        function toggleSolution(id) {
+            const sol = document.getElementById(id);
+            const btn = sol.closest('.practice-problem').querySelector('.reveal-btn');
+            if (sol.classList.contains('visible')) {
+                sol.classList.remove('visible');
+                btn.textContent = 'Show Solution';
+            } else {
+                sol.classList.add('visible');
+                btn.textContent = 'Hide Solution';
+            }
+        }
+    </script>
+</body>
+</html>
