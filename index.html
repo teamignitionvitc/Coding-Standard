@@ -68,7 +68,7 @@
         /* Layout */
         .container { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 300px;
+            width: 320px; /* Slightly wider for better readability */
             background: var(--bg-darker);
             border-right: 1px solid var(--border);
             position: fixed;
@@ -79,22 +79,41 @@
             transition: transform 0.3s ease;
         }
         .content {
-            margin-left: 300px;
-            width: calc(100% - 300px);
+            margin-left: 320px; /* Match sidebar width */
+            width: calc(100% - 320px);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
         .main-body {
             flex: 1;
-            padding: 4rem 5rem;
+            padding: 4rem 6rem; /* More breathing room */
         }
-        .team-logo-banner {
-            width: auto;
-            max-width: 250px;
-            height: auto;
-            display: block;
+        
+        /* --- NEW HEADER STYLES --- */
+        .intro-header {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
             margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 3rem;
+        }
+        .intro-logo {
+            width: 180px;
+            height: auto;
+            flex-shrink: 0;
+        }
+        .intro-text h1 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 3rem; /* Slightly larger for impact */
+        }
+        .intro-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+            max-width: 60ch;
         }
 
         /* Language Badges */
@@ -117,6 +136,39 @@
         .callout { background: var(--bg-light); border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
         .callout.danger { border-color: var(--danger); background: rgba(255, 69, 58, 0.05); }
         .callout-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+
+        /* Drive Link Buttons */
+        .drive-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .drive-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .drive-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 77, 0, 0.2);
+        }
+        .drive-btn svg {
+            width: 20px;
+            height: 20px;
+        }
 
         /* Code Blocks */
         .code-block-wrapper {
@@ -162,32 +214,107 @@
         th { background: var(--bg-light); color: var(--text-primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
         tr:hover { background: var(--bg-light); }
 
-        /* Navigation */
-        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-darker); min-height: 80px; }
-        .nav-container { flex-grow: 1; overflow-y: auto; padding: 0 0 2rem 0; }
+        /* Navigation - IMPROVED */
+        .sidebar-header {
+            padding: 2rem 1.5rem 1.5rem;
+            background: var(--bg-darker);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem 0 3rem 0;
+        }
         .nav-section-title {
-            padding: 1.5rem 1.5rem 0.5rem;
-            font-size: 0.7rem;
+            padding: 1.5rem 2rem 0.75rem; /* More left padding */
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            background: var(--bg-darker);
-            z-index: 2;
+            opacity: 0.8;
         }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 0.6rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem; border-left: 3px solid transparent; transition: all 0.2s ease; }
-        .nav-item:hover { background: var(--bg-light); color: var(--text-primary); }
-        .nav-item.active { background: var(--accent-dim); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
-        .nav-item svg { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 2rem; /* More generous padding */
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+            transition: all 0.15s ease-in-out;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+        }
+        .nav-item.active {
+            background: linear-gradient(to right, var(--accent-dim), transparent);
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+        .nav-item.active svg {
+            opacity: 1;
+        }
 
-        /* Search */
-        .search-container { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); position: relative; background: var(--bg-darker); }
-        #search-input { width: 100%; background: var(--bg-light); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 0.8rem 0.6rem 2.2rem; color: var(--text-primary); font-size: 0.9rem; }
-        #search-input:focus { outline: none; border-color: var(--accent); }
-        .search-icon { position: absolute; left: 2.2rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); width: 16px; height: 16px; }
-        .highlight { background-color: var(--accent-dim); color: var(--text-primary); padding: 0 2px; border-radius: 2px; }
+        /* Search - IMPROVED */
+        .search-container {
+            position: relative;
+        }
+        #search-input {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        #search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .search-clear {
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: none; /* Hidden by default */
+        }
+        .search-clear:hover { color: var(--text-primary); }
+
+        /* Highlighting - MUCH BETTER VISIBILITY */
+        .highlight {
+            background-color: #ffd700; /* Bright yellow for max contrast */
+            color: #000000; /* Black text on yellow */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Glow effect */
+        }
 
         /* Interactive Practice */
         .practice-problem {
@@ -218,52 +345,99 @@
         .solution.visible { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Footer */
+        /* Footer - FINAL POLISH */
         footer {
             background: var(--bg-darker);
             border-top: 1px solid var(--border);
-            padding: 4rem 5rem 2rem;
+            padding: 4rem 6rem;
             margin-top: auto;
         }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            align-items: start;
+        }
         .footer-logo-section {
-            display: flex; flex-direction: column; gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
         .footer-logo-img {
             height: 40px;
             width: auto;
             align-self: flex-start;
+            opacity: 0.9;
+            transition: opacity 0.2s;
         }
-        .footer-text { font-size: 0.9rem; color: var(--text-secondary); max-width: 400px; line-height: 1.6; }
+        .footer-logo-img:hover { opacity: 1; }
+        .footer-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            max-width: 450px;
+            line-height: 1.6;
+        }
 
         .confidential-box {
-            background: rgba(255, 69, 58, 0.05);
+            background: rgba(255, 69, 58, 0.08); /* Slightly more visible */
             border: 1px solid var(--danger);
-            padding: 1.5rem;
-            border-radius: 8px;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         }
-        .confidential-box h4 { color: var(--danger); margin-top: 0; display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
-        .confidential-box p { font-size: 0.85rem; margin-bottom: 0; color: var(--danger); opacity: 0.8; }
+        .confidential-box h4 {
+            color: var(--danger);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .confidential-box p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            color: var(--text-primary);
+            opacity: 0.9;
+        }
 
         .copyright {
             text-align: center;
             padding-top: 2rem;
             border-top: 1px solid var(--border);
             color: var(--text-secondary);
-            font-size: 0.85rem;
-            opacity: 0.6;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
-        /* Responsive */
-        .mobile-toggle { display: none; position: fixed; top: 1rem; right: 1rem; z-index: 1001; background: var(--bg-darker); border: 1px solid var(--border); padding: 0.5rem; border-radius: 6px; color: var(--text-primary); cursor: pointer; }
+        /* Responsive - IMPROVED */
+        .mobile-toggle { display: none; position: fixed; top: 1rem; right: 1rem; z-index: 1001; background: var(--bg-darker); border: 1px solid var(--border); padding: 0.6rem; border-radius: 8px; color: var(--text-primary); cursor: pointer; transition: background 0.2s; }
+        .mobile-toggle:hover { background: var(--bg-light); }
+
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(-100%); box-shadow: none; }
-            .sidebar.open { transform: translateX(0); box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 50px rgba(0,0,0,0.7); }
             .content { margin-left: 0; width: 100%; }
-            .main-body, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .main-body { padding: 3rem 2rem; } /* Better mobile padding */
+            footer { padding: 3rem 2rem; }
             .mobile-toggle { display: block; }
-            h1 { font-size: 2rem; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            
+            /* Responsive Header */
+            .intro-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+            .intro-logo {
+                width: 150px;
+            }
+            .intro-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            /* Responsive Footer */
+            .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
         }
     </style>
 </head>
@@ -277,54 +451,58 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <!-- Intentional empty space for visual balance -->
+                <div class="search-container">
+                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" id="search-input" placeholder="Search standards...">
+                    <svg class="search-clear" id="search-clear" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
             </div>
-            <div class="search-container">
-                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="search-input" placeholder="Search standards...">
-            </div>
-            <nav class="nav-container">
+            
+            <nav class="nav-container" id="nav-container">
                 <div class="nav-section-title">Overview</div>
-                <a href="#intro" class="nav-item active"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Introduction</a>
-                <a href="#purpose" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg> Why Standards Matter</a>
-                <a href="#universal" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Universal Standards</a>
+                <a href="#intro" class="nav-item active" data-target="intro"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Introduction</a>
+                <a href="#purpose" class="nav-item" data-target="purpose"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg> Why Standards Matter</a>
+                <a href="#universal" class="nav-item" data-target="universal"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Universal Standards</a>
 
                 <div class="nav-section-title" style="color: var(--c-color);">Embedded C Guide</div>
-                <a href="#c-edu-basics" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg> C Basics Explained</a>
-                <a href="#c-edu-macros" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg> Power of Macros</a>
-                <a href="#c-edu-realtime" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Real-Time Concepts</a>
+                <a href="#c-edu-basics" class="nav-item" data-target="c-edu-basics"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg> C Basics Explained</a>
+                <a href="#c-edu-macros" class="nav-item" data-target="c-edu-macros"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg> Power of Macros</a>
+                <a href="#c-edu-realtime" class="nav-item" data-target="c-edu-realtime"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Real-Time Concepts</a>
 
                 <div class="nav-section-title" style="color: var(--accent);">Advanced Algorithms</div>
-                <a href="#algo-fsm" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Finite State Machines</a>
-                <a href="#algo-pid" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> PID Control</a>
-                <a href="#algo-kalman" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg> Kalman Filtering</a>
+                <a href="#algo-fsm" class="nav-item" data-target="algo-fsm"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Finite State Machines</a>
+                <a href="#algo-pid" class="nav-item" data-target="algo-pid"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> PID Control</a>
+                <a href="#algo-kalman" class="nav-item" data-target="algo-kalman"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg> Kalman Filtering</a>
 
                 <div class="nav-section-title" style="color: var(--c-color);">Embedded C Standards</div>
-                <a href="#c-structure" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h8"/></svg> File Structure</a>
-                <a href="#c-naming" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg> Naming & Types</a>
-                <a href="#c-formatting" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"/></svg> Formatting (Braces)</a>
-                <a href="#c-functions" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg> Functions & Docs</a>
-                <a href="#c-templates" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> C Templates</a>
+                <a href="#c-structure" class="nav-item" data-target="c-structure"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h8"/></svg> File Structure</a>
+                <a href="#c-naming" class="nav-item" data-target="c-naming"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg> Naming & Types</a>
+                <a href="#c-formatting" class="nav-item" data-target="c-formatting"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"/></svg> Formatting (Braces)</a>
+                <a href="#c-functions" class="nav-item" data-target="c-functions"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg> Functions & Docs</a>
+                <a href="#c-templates" class="nav-item" data-target="c-templates"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> C Templates</a>
 
                 <div class="nav-section-title" style="color: var(--py-color);">Python</div>
-                <a href="#py-naming" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636L4.222 4.222m15.556 15.556L18.364 18.364M5.636 18.364L4.222 19.778m15.556-15.556l1.414-1.414"/></svg> Naming Conventions</a>
-                <a href="#py-docs" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Docstrings & Types</a>
-                <a href="#py-structure" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg> Project Structure</a>
+                <a href="#py-naming" class="nav-item" data-target="py-naming"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636L4.222 4.222m15.556 15.556L18.364 18.364M5.636 18.364L4.222 19.778m15.556-15.556l1.414-1.414"/></svg> Naming Conventions</a>
+                <a href="#py-docs" class="nav-item" data-target="py-docs"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Docstrings & Types</a>
+                <a href="#py-structure" class="nav-item" data-target="py-structure"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg> Project Structure</a>
 
                 <div class="nav-section-title" style="color: var(--success);">Practice</div>
-                <a href="#practice" class="nav-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Practice Arena</a>
+                <a href="#practice" class="nav-item" data-target="practice"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Practice Arena</a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="content">
             <div class="main-body">
-                <!-- Team Logo Placeholder -->
-                <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="team-logo-banner">
-
-                <section id="intro">
-                    <h1>Ignition Coding Standards</h1>
-                    <p>As a student rocketry team, Team Ignition develops a wide range of software completely in-house—from flight-critical avionics firmware to ground station telemetry dashboards. Adherence to these standards ensures our diverse codebase remains maintainable, readable, and reliable during high-pressure launch operations.</p>
+                <!-- NEW INTRO HEADER SECTION -->
+                <section id="intro" class="page-intro">
+                    <div class="intro-header">
+                        <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="intro-logo">
+                        <div class="intro-text">
+                            <h1>Ignition Coding Standards</h1>
+                            <p>As a student rocketry team, Team Ignition develops a wide range of software completely in-house—from flight-critical avionics firmware to ground station telemetry dashboards. Adherence to these standards ensures our diverse codebase remains maintainable, readable, and reliable during high-pressure launch operations.</p>
+                        </div>
+                    </div>
                     
                     <div class="callout danger">
                         <div class="callout-title">
@@ -373,6 +551,26 @@
                   © Copyright of Ignition &lt;Department Name&gt;
 */</code></pre>
                     </div>
+                    <p>Example with file details and history block:</p>
+                    <div class="code-block-wrapper">
+                        <div class="code-header"><span>Real-World Example (fin_actuator.c)</span><button class="copy-btn">Copy</button></div>
+                        <pre><code class="language-c">/**************************************************************************************************
+* File:        fin_actuator.c
+* Author:      John Doe
+* Created On:  2025-01-15
+* * Brief:
+* Source file for Fin Actuator Module.
+* * Description:
+* Implements PID-based active roll control using MPU6050 and 4 servo fins.
+***************************************************************************************************
+* HISTORY:
+* * +----- (NEW | MODify | ADD | DELete)
+* |
+* No#   |       when       who                  what
+******+*********+**********+********************+**************************************************
+* 000  NEW      2025-01-15   John Doe             Initial creation
+**************************************************************************************************/</code></pre>
+                    </div>
 
                     <h3>2. Version History Block</h3>
                     <p>Maintain a manual history block at the top of critical files (especially firmware and core telemetry libraries) to track changes alongside Git history.</p>
@@ -385,8 +583,8 @@
 * |
 * No#   |       when       who                  what
 ******+*********+**********+********************+**************************************************
-* 000  NEW      13/06/25   John Doe             Initial creation
-* 001  ADD      14/06/25   Jane Smith           Added SystemInit() logic
+* 000  NEW      2025-06-13   John Doe             Initial creation
+* 001  ADD      2025-06-14   Jane Smith           Added SystemInit() logic
 **************************************************************************************************/</code></pre>
                     </div>
 
@@ -653,6 +851,19 @@ static bool Module_ValidateConfig(const ModuleConfig* config);</code></pre>
                 <section id="c-templates">
                     <h3>C Module Templates</h3>
                     <p>Use these templates exactly as shown for new modules.</p>
+                    
+                    <!-- ADDED DRIVE LINKS HERE -->
+                    <div class="drive-links">
+                        <a href="https://drive.google.com/drive/folders/1fse1-j96eJJAO7OhyhyQJ5sEDTO-o_oy?usp=sharing" target="_blank" class="drive-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
+                            Templates Folder
+                        </a>
+                        <a href="https://docs.google.com/document/d/1AbmAShuT2e7Qd-A6n7_8eX3vIoEVFz0d0hwLOTUMJds/edit?usp=drive_link" target="_blank" class="drive-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                            Original DOCX Guide
+                        </a>
+                    </div>
+
                     <div class="code-block-wrapper">
                         <div class="code-header"><span>Template_module.h</span><button class="copy-btn">Copy</button></div>
                         <pre><code class="language-c">#ifndef TEMPLATE_MODULE_H_
@@ -996,10 +1207,8 @@ PyroResult Pyro_FireDrogue(void)
 
             <footer>
                 <div class="footer-grid">
-                    <div class="footer-main">
-                        <div class="footer-logo-text">
-                            <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="footer-logo-img">
-                        </div>
+                    <div class="footer-logo-section">
+                        <img src="https://glance.teamignition.space/public/ign_logo_wht.svg" alt="Team Ignition Logo" class="footer-logo-img">
                         <p class="footer-text">The official student rocketry team of Vellore Institute of Technology, Chennai. Dedicated to advancing aerospace innovation through hands-on learning.</p>
                     </div>
                     <div class="confidential-box">
@@ -1039,9 +1248,9 @@ PyroResult Pyro_FireDrogue(void)
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.getAttribute('id');
-                    if (document.querySelector(`.nav-item[href="#${id}"]`)) {
+                    if (document.querySelector(`.nav-item[data-target="${id}"]`)) {
                         navItems.forEach(item => item.classList.remove('active'));
-                        document.querySelector(`.nav-item[href="#${id}"]`).classList.add('active');
+                        document.querySelector(`.nav-item[data-target="${id}"]`).classList.add('active');
                     }
                 }
             });
@@ -1094,13 +1303,15 @@ PyroResult Pyro_FireDrogue(void)
             setTimeout(() => btn.innerHTML = originalText, 2000);
         }
 
-        // Enhanced Search with Highlighting
+        // Enhanced Search with Highlighting and Sidebar Filtering
         const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+        const navContainer = document.getElementById('nav-container');
         let originalContent = new Map(); // Store original HTML content
 
         // Initialize by storing original content of searchable elements
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('main p, main h1, main h2, main h3, main li, main td, .practice-problem p').forEach((el, index) => {
+            document.querySelectorAll('main p, main h1, main h2, main h3, main li, main td, .practice-problem p, code').forEach((el, index) => {
                 el.setAttribute('data-search-id', index);
                 originalContent.set(index, el.innerHTML);
             });
@@ -1108,29 +1319,51 @@ PyroResult Pyro_FireDrogue(void)
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
+            searchClear.style.display = term ? 'block' : 'none';
             
-            // 1. Filter Sections
-            document.querySelectorAll('main section, .practice-problem').forEach(el => {
-                if (term === '') {
-                     el.style.display = 'block';
-                } else {
-                     // Simple text matching for section visibility
-                     el.style.display = el.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+            // 1. Highlight Matches in Main Content
+            originalContent.forEach((content, id) => {
+                const el = document.querySelector(`[data-search-id="${id}"]`);
+                if (el) { // Ensure element exists
+                    if (term !== '' && content.toLowerCase().includes(term)) {
+                        // Create a regex that matches the term but preserves case in original text
+                        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                        el.innerHTML = content.replace(regex, '<span class="highlight">$1</span>');
+                    } else {
+                        el.innerHTML = content;
+                    }
                 }
             });
 
-            // 2. Highlight Matches
-            originalContent.forEach((content, id) => {
-                const el = document.querySelector(`[data-search-id="${id}"]`);
-                if (term !== '' && content.toLowerCase().includes(term)) {
-                    // Create a regex that matches the term but preserves case in original text
-                    const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                    el.innerHTML = content.replace(regex, '<span class="highlight">$1</span>');
+            // 2. Filter Sidebar Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const targetId = item.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+                if (term === '' || (targetSection && targetSection.innerText.toLowerCase().includes(term))) {
+                    item.style.display = 'flex';
                 } else {
-                    // Restore original content if no match or search cleared
-                    el.innerHTML = content;
+                    item.style.display = 'none';
                 }
             });
+            
+             // Hide empty section titles in sidebar
+            document.querySelectorAll('.nav-section-title').forEach(title => {
+                let nextElement = title.nextElementSibling;
+                let hasVisibleChildren = false;
+                while (nextElement && !nextElement.classList.contains('nav-section-title')) {
+                    if (nextElement.style.display !== 'none') {
+                        hasVisibleChildren = true;
+                        break;
+                    }
+                    nextElement = nextElement.nextElementSibling;
+                }
+                title.style.display = (term === '' || hasVisibleChildren) ? 'block' : 'none';
+            });
+        });
+
+        searchClear.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
         });
 
         // Practice Problem Toggle
